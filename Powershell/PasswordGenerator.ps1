@@ -1,8 +1,12 @@
 param(
+    # How many words to include in the password
     [string]$length = 2
 )
 
+# Get-Culture to ensure the password is generated in the correct language
 $TextInfo = (Get-Culture).TextInfo
+
+# Words to be used in the password
 $words = @(
     "friendly","surface","special","pencil","mass","bark","oil","stand","question","heart"
     "bite","hope","rate","tonight","question","congress","take","person","improve","give"
@@ -27,12 +31,13 @@ $words = @(
     "night","bean","very","writer","difference","old","seat","browserling","grown","respect"
     "rabbit","steam","funny","put","broad","greater","shorter","direct","lay","deer"
 )
-
+# Special Characters and numbers to be used in the password
 $specialChars = @("!","@","#","$","%","^","&","*","(",")","+","=","{","}","[","]","<",">","?","/")
 $numbers = @("0","1","2","3","4","5","6","7","8","9")
 
-
+# Join random words and special characters to create a password
 $Password = -Join $TextInfo.ToTitleCase(((1..$length) | ForEach-Object {$words | Get-Random} | Join-String -Separator ($specialChars | Get-Random)))
 $Password += (($specialChars | Get-Random) + ($numbers | Get-Random) + ($numbers | Get-Random))
 
+# Output the generated password
 Write-Host "New Password: $Password"
